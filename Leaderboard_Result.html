@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link href="style1.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Results</h1>
+    <div id="userDetails"></div>>
+    <h1>Leaderboard</h1>
+    <table id="leaderboardTable">
+        <thead>
+            <tr>
+                <th style="font-size: larger;">Name</th>
+                <th style="font-size: larger;">Enrollment No</th>
+                <th style="font-size: larger;">Aptos Coins</th>
+                <th style="font-size: larger;">Email Account</th> <!-- Column for Email Account -->
+            </tr>
+        </thead>
+        <tbody style="font-size: large;">
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch user details and leaderboard data
+        function fetchLeaderboard() {
+            fetch('http://localhost:7629/leaderboard')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Fetched Leaderboard Data:", data); 
+                    const userDetails = JSON.parse(localStorage.getItem('userDetails')) || {};
+                    document.getElementById('userDetails').innerHTML = `
+                        <h2>Your Details</h2>
+                        <p>Name: ${userDetails.fullName}</p>
+                        <p>Enrollment No: ${userDetails.enrollment}</p>
+                        <p>Total Marks: ${userDetails.totalMarks}</p>
+                        <p>Email: ${userDetails.email}</p> <!-- Added Email -->
+                    `;
+                    const tbody = document.getElementById('leaderboardTable').getElementsByTagName('tbody')[0];
+                    data.forEach(candidate => {
+                        const row = tbody.insertRow();
+                        row.insertCell(0).innerText = candidate.fullName;
+                        row.insertCell(1).innerText = candidate.enrollment;
+                        row.insertCell(2).innerText = candidate.totalMarks;
+                        row.insertCell(3).innerText = candidate.email
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching leaderboard:', error);
+                });    
+        }
+        fetchLeaderboard();
+    </script>
+</body>
+</html>

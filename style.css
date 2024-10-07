@@ -1,0 +1,57 @@
+h2{
+    font-family: 'Arial', sans-serif;
+    text-align:center;
+    text-decoration:underline;
+    text-decoration-thickness: 3;
+    text-decoration-color: brown;
+    background-color:#c49a58;
+}
+html{
+    background-color:rgb(244, 204, 167);
+}
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5em; /* Slightly larger size */
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    text-decoration: underline;
+    text-decoration-color: brown;
+    background: linear-gradient(to right, #c7b77b, #a17c40);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    border: 2px solid brown; /* Border */
+    animation: fadeIn 1s ease-in; /* Fade-in animation */
+}
+
+div {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 200px auto;
+    color: saddlebrown;
+    background: linear-gradient(to right, khaki, lightyellow);
+    border: 2px solid darkgoldenrod;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+div:hover {
+    background-color: lightgoldenrodyellow;
+    transition: background-color 0.3s ease;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+hr {
+    background-color: rgb(100, 93, 0);
+    color: green;
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <div class="user_details_quiz" id="2">
+        <h2>ENTER THE USER DETAILS</h2>
+        <form id="quizForm">
+            Enter your full name:<input type="text" id="fullName" placeholder="your full name" required><br><br>
+            Enter your gender:<br>
+            <input type="radio" name="gender" value="Male" required>Male<br>
+            <input type="radio" name="gender" value="Female">Female<br><br>
+            Enter your enrollment number:<input type="text" id="enrollment" placeholder="10 digit enrollment number" required><br><br>
+            Enter your city:
+            <select id="city" name="cities" required>
+                <option value="Gujrat">Gujrat</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Goa">Goa</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Other">Other</option>
+            </select>
+            <br><br>
+            <label for="email">Enter your Email:</label>
+            <input type="email" id="email" name="email" placeholder="your email" required><br><br>
+            <h2>Start Your Quiz</h2>
+            Q1: What is the formula for calculating distance?<br>
+            <input type="radio" name="q1" value="Speed*Time">Speed*Time<br>
+            <input type="radio" name="q1" value="Speed/Time">Speed/Time<br>
+            <input type="radio" name="q1" value="2*Speed*Time">2*Speed*Time<br>
+            <input type="radio" name="q1" value="Time/Speed">Time/Speed<br><br>
+            Q2: What is the formula for calculating Simple Interest?<br>
+            <input type="radio" name="q2" value="Principle*Rate*Time">Principle*Rate*Time<br>
+            <input type="radio" name="q2" value="(Rate*Time)/100">(Rate*Time)/100<br>
+            <input type="radio" name="q2" value="(Principle*Rate*Time)/100">(Principle*Rate*Time)/100<br>
+            <input type="radio" name="q2" value="(Principle*Time)/100">(Principle*Time)/100<br><br>
+            Q3: What is the formula for calculating Profit?<br>
+            <input type="radio" name="q3" value="Cost Price-Selling Price">Cost Price-Selling Price<br>
+            <input type="radio" name="q3" value="Selling Price-Cost Price">Selling Price-Cost Price<br>
+            <input type="radio" name="q3" value="(Cost Price -Selling Price)/Selling Price">(Cost Price -Selling Price)*100/Selling Price<br>
+            <input type="radio" name="q3" value="((Selling Price -Cost Price))*100/Cost Price">((Selling Price -Selling Price))*100/Cost Price<br><br>
+            Q4: How many quantities together form a dozen?<br>
+            <input type="radio" name="q4" value="1">1<br>
+            <input type="radio" name="q4" value="5">5<br>
+            <input type="radio" name="q4" value="12">12<br>
+            <input type="radio" name="q4" value="6">6<br><br>
+            Q5: How many grams are there in 1 Kilogram?<br>
+            <input type="radio" name="q5" value="1000">1000<br>
+            <input type="radio" name="q5" value="100">100<br>
+            <input type="radio" name="q5" value="10000">10000<br>
+            <input type="radio" name="q5" value="10">10<br><br>
+            <button type="submit" id="submitQuiz">Submit</button><br><br>
+            <input type="reset" value="reset"></input><br><br>
+        </form>
+    </div>
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            let fullName = document.getElementById('fullName').value;
+            let gender = document.querySelector('input[name="gender"]:checked').value;
+            let enrollment = document.getElementById('enrollment').value;
+            let city = document.getElementById('city').value;
+            let email = document.getElementById('email').value;;
+            let totalMarks = 0;
+            const correctAnswers = {
+                q1: 'Speed*Time',
+                q2: '(Principle*Rate*Time)/100',
+                q3: 'Selling Price-Cost Price',
+                q4: '12',
+                q5: '1000'
+            };
+            for (let question in correctAnswers) {
+                const userAnswer = document.querySelector(`input[name="${question}"]:checked`);
+                if (userAnswer && userAnswer.value === correctAnswers[question]) {
+                    totalMarks += 2; // Each correct answer gives 2 marks
+                }
+            }
+
+            // Prepare the quiz data
+            let quizData = {
+                fullName: fullName,
+                gender: gender,
+                enrollment: enrollment,
+                city: city,
+                email: email,
+                totalMarks: totalMarks
+            };
+
+            fetch('http://localhost:7629/submitQuiz', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(quizData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Quiz submitted successfully!');
+
+                // Store user details in localStorage
+                localStorage.setItem('userDetails', JSON.stringify(quizData));
+
+                // Redirect to leaderboard
+                window.location.href = 'Leaderboard_Result.html'; // Redirect to leaderboard
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                console.log(error);
+                alert('There was an error submitting the quiz.');
+            });
+        });
+</script>
+</body>
+</html>
